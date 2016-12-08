@@ -15,5 +15,6 @@ private:
     JsrtContext* originalJsrtContext;
 };
 
+void ChakraCoreAutoInitialize();
 _NOINLINE void VALIDATE_ENTER_CURRENT_THREAD();
 

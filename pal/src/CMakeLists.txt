@@ -160,11 +160,14 @@ set(SOURCES
   thread/threadsusp.cpp
 )
 
-add_library(Chakra.Pal
-  STATIC
+add_library(Chakra.Pal.Object OBJECT
   ${SOURCES}
   ${PLATFORM_SOURCES}
   ${ARCH_SOURCES}
+)
+add_library(Chakra.Pal
+  STATIC
+  $<TARGET_OBJECTS:Chakra.Pal.Object>
 )
 
 if(CMAKE_SYSTEM_NAME STREQUAL Darwin)

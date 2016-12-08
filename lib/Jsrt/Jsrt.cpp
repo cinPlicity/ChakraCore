@@ -233,7 +233,7 @@ JsErrorCode CreateRuntimeCore(_In_ JsRuntimeAttributes attributes,
     _In_opt_ JsTTDWriteBytesToStreamCallback writeBytesToStream, _In_opt_ JsTTDFlushAndCloseStreamCallback flushAndCloseStream,
     _In_opt_ JsThreadServiceCallback threadService, _Out_ JsRuntimeHandle *runtimeHandle)
 {
-    VALIDATE_ENTER_CURRENT_THREAD();
+    ChakraCoreAutoInitialize();
 
     PARAM_NOT_NULL(runtimeHandle);
     *runtimeHandle = nullptr;
@@ -734,7 +734,7 @@ CHAKRA_API JsGetCurrentContext(_Out_ JsContextRef *currentContext)
 
 CHAKRA_API JsSetCurrentContext(_In_ JsContextRef newContext)
 {
-    VALIDATE_ENTER_CURRENT_THREAD();
+    ChakraCoreAutoInitialize();
 
     return GlobalAPIWrapper([&] (TTDRecorder& _actionEntryPopper) -> JsErrorCode {
         JsrtContext *currentContext = JsrtContext::GetCurrent();
