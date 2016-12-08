@@ -155,4 +155,8 @@ if(NOT CC_XCODE_PROJECT)
     "${CHAKRACORE_BINARY_DIR}/bin/ChakraCore/libChakraCoreStatic.a"
     "${CHAKRACORE_BINARY_DIR}/"
     )
+  if(TARGET ChakraCoreHeaders)
+    add_dependencies(ChakraCore ChakraCoreHeaders)
+    add_dependencies(ChakraCoreStatic ChakraCoreHeaders)
+  endif()
 endif()
