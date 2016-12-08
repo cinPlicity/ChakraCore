@@ -2,6 +2,27 @@ if(BuildJIT)
     set(chakra_backend_objects $<TARGET_OBJECTS:Chakra.Backend>)
 endif()
 
+
+add_library (Chakra.Jsrt.Helper OBJECT
+    JsrtHelper.cpp
+    )
+
+target_include_directories (
+    Chakra.Jsrt.Helper PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}
+    ../Backend
+    ../JITIDL
+    ../Runtime
+    ../Runtime/Base
+    ../Runtime/ByteCode
+    ../Runtime/Debug
+    ../Parser
+    ../
+    )
+
+if(STATIC_LIBRARY)
+    target_compile_definitions(Chakra.Jsrt.Helper PRIVATE -DCHAKRA_STATIC_LIBRARY=1)
+endif()
+
 add_library (Chakra.Jsrt STATIC
     Jsrt.cpp
     JsrtDebugUtils.cpp
@@ -12,12 +33,12 @@ add_library (Chakra.Jsrt STATIC
     JsrtExternalArrayBuffer.cpp
     JsrtExternalObject.cpp
     JsrtDebugEventObject.cpp
-    JsrtHelper.cpp
     JsrtPch.cpp
     JsrtRuntime.cpp
     JsrtSourceHolder.cpp
     JsrtThreadService.cpp
     $<TARGET_OBJECTS:Chakra.Jsrt.Core>
+    $<TARGET_OBJECTS:Chakra.Jsrt.Helper>
     ${chakra_backend_objects}
 #   Do not take this in. We need to control the
 #   linker order because of global constructors
