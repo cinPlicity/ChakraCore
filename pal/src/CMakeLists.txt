@@ -180,19 +180,11 @@ if(CMAKE_SYSTEM_NAME STREQUAL Darwin)
 endif(CMAKE_SYSTEM_NAME STREQUAL Darwin)
 
 if(CMAKE_SYSTEM_NAME STREQUAL Linux)
-  if(CC_TARGETS_AMD64)
-    target_link_libraries(Chakra.Pal
-      unwind-x86_64
-    )
-  endif()
-
   target_link_libraries(Chakra.Pal
     gcc_s
     pthread
     rt
     dl
-    unwind
-    unwind-generic
   )
 endif(CMAKE_SYSTEM_NAME STREQUAL Linux)
 
