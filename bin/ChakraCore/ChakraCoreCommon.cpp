@@ -77,6 +77,11 @@ atexit([]() {
     PAL_InitializeChakraCore(0, NULL);
 #endif
 
+	if (!ThreadContextTLSEntry::InitializeProcess())
+	{
+		return false;
+	}
+
     HMODULE mod = GetModuleHandleW(NULL);
 
     AutoSystemInfo::SaveModuleFileName(mod);
@@ -136,6 +141,8 @@ void ChakraCoreAutoInitialize()
 
     if (s_threadWasEntered) return;
     s_threadWasEntered = true;
+
+	ThreadContextTLSEntry::InitializeThread();
 
 #ifdef DYNAMIC_PROFILE_STORAGE
     DynamicProfileStorage::Initialize();
