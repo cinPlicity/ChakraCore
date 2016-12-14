@@ -1,4 +1,4 @@
-add_library (Chakra.Common.Core STATIC
+add_library (Chakra.Common.Core.Object OBJECT
     Api.cpp
     BinaryFeatureControl.cpp
     CmdParser.cpp
@@ -21,4 +21,8 @@ add_library (Chakra.Common.Core STATIC
 )
 
 target_include_directories (
-    Chakra.Common.Core PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+    Chakra.Common.Core.Object PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+
+add_library (Chakra.Common.Core STATIC
+  $<TARGET_OBJECTS:Chakra.Common.Core.Object>
+  )

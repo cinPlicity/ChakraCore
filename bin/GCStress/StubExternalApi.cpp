@@ -111,3 +111,8 @@ HRESULT MemProtectHeapSynchronizeWithCollector(void * heapHandle) { return E_NOT
 #if DBG && defined(INTERNAL_MEM_PROTECT_HEAP_ALLOC)
 void MemProtectHeapSetDisableConcurrentThreadExitedCheck(void * heapHandle) {};
 #endif
+
+void ChakraCoreAutoInitialize()
+{
+    // Does nothing
+}

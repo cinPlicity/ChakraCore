@@ -2,7 +2,8 @@ if(BuildJIT)
     set(chakra_backend_objects $<TARGET_OBJECTS:Chakra.Backend>)
 endif()
 
-add_library (Chakra.Jsrt STATIC
+
+add_library (Chakra.Jsrt.Object OBJECT
     Jsrt.cpp
     JsrtDebugUtils.cpp
     JsrtDebugManager.cpp
@@ -17,6 +18,8 @@ add_library (Chakra.Jsrt STATIC
     JsrtRuntime.cpp
     JsrtSourceHolder.cpp
     JsrtThreadService.cpp
+    )
+add_library (Chakra.Jsrt STATIC
     $<TARGET_OBJECTS:Chakra.Jsrt.Core>
     ${chakra_backend_objects}
 #   Do not take this in. We need to control the
@@ -38,12 +41,14 @@ add_library (Chakra.Jsrt STATIC
     $<TARGET_OBJECTS:Chakra.Runtime.Types>
     $<TARGET_OBJECTS:Chakra.Runtime.PlatformAgnostic>
     $<TARGET_OBJECTS:Chakra.Parser>
+    $<TARGET_OBJECTS:Chakra.Jsrt.Object>
+
     )
 
 add_subdirectory(Core)
 
 target_include_directories (
-    Chakra.Jsrt PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}
+    Chakra.Jsrt.Object PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}
     ../Backend
     ../JITIDL
     ../Runtime
@@ -52,3 +57,19 @@ target_include_directories (
     ../Runtime/Debug
     ../Parser
     )
+
+if(NOT CC_XCODE_PROJECT)
+  add_custom_target(ChakraCoreHeaders ALL
+  COMMAND ${CMAKE_COMMAND} -E make_directory
+    "${CMAKE_BINARY_DIR}/include"
+  COMMAND ${CMAKE_COMMAND} -E copy_if_different
+    "${CMAKE_CURRENT_SOURCE_DIR}/ChakraCore.h"
+    "${CMAKE_BINARY_DIR}/include"
+  COMMAND ${CMAKE_COMMAND} -E copy_if_different
+    "${CMAKE_CURRENT_SOURCE_DIR}/ChakraCommon.h"
+    "${CMAKE_BINARY_DIR}/include"
+  COMMAND ${CMAKE_COMMAND} -E copy_if_different
+    "${CMAKE_CURRENT_SOURCE_DIR}/ChakraDebug.h"
+    "${CMAKE_BINARY_DIR}/include"
+  )
+endif()

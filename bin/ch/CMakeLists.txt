@@ -8,12 +8,6 @@ set(ch_source_files
   WScriptJsrt.cpp
   )
 
-if (STATIC_LIBRARY)
-  set(ch_source_files "${ch_source_files}"
-    ../ChakraCore/TestHooks.cpp
-    )
-endif()
-
 add_executable (ch ${ch_source_files})
 
 set_target_properties(ch
@@ -44,9 +38,7 @@ if(STATIC_LIBRARY)
   set(lib_target "${lib_target}"
     -Wl,-undefined,error
     ${LINKER_START_GROUP}
-    Chakra.Pal
-    Chakra.Common.Core
-    Chakra.Jsrt
+    ChakraCoreStatic
     ${LINKER_END_GROUP}
     pthread
     dl

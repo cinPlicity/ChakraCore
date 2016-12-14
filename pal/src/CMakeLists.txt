@@ -160,11 +160,14 @@ set(SOURCES
   thread/threadsusp.cpp
 )
 
-add_library(Chakra.Pal
-  STATIC
+add_library(Chakra.Pal.Object OBJECT
   ${SOURCES}
   ${PLATFORM_SOURCES}
   ${ARCH_SOURCES}
+)
+add_library(Chakra.Pal
+  STATIC
+  $<TARGET_OBJECTS:Chakra.Pal.Object>
 )
 
 if(CMAKE_SYSTEM_NAME STREQUAL Darwin)
@@ -172,7 +175,7 @@ if(CMAKE_SYSTEM_NAME STREQUAL Darwin)
     "-framework CoreFoundation"
     "-framework Security"
   )
-else() # Linux
+elseif(CMAKE_SYSTEM_NAME STREQUAL Linux)
   target_link_libraries(Chakra.Pal
     pthread
     dl
